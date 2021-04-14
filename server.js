@@ -21,5 +21,5 @@ function newConnection(socket) {
 }
 
 server.listen(process.env.PORT || 3000, function() {
-  console.log("Started server");
+  console.log("Started server at http://localhost:3000");
 });
