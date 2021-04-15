@@ -1,6 +1,12 @@
-let socket = io.connect();
+const params = new URLSearchParams(window.location.search);
+const secret = params.get("secret");
+const name = params.get("name");
+let isSnail = false;
+
+let socket = io.connect({ query: { secret: secret, name: name } });
 
 socket.on("message", processMessage);
+socket.on("connected", gotConnection);
 
 // let touches = [];
 let myColor;
@@ -28,7 +34,6 @@ function setup() {
   for (let y = 0; y < height; y += size) {
     for (let x = 0; x < width; x += size) {
       let freq = map(y, 0, height, 0, 1000);
-      // let phase = map(x, 0, width, 0.0, 1.0);
       instruments.push(new Instrument(freq, x, y, size));
     }
   }
@@ -47,12 +52,13 @@ function draw() {
     return;
   }
 
-  if (touches.length > 0) {
+  if (isSnail && touches.length > 0) {
     const data = {
       touches: touches.map((t) => {
         return { x: t.x / width, y: t.y / height };
       }),
       c: myColor,
+      fc: frameCount
     };
     drawPoints(data);
     playInstruments(data);
@@ -69,18 +75,10 @@ function playInstruments(data) {
     for (let t of data.touches) {
       if (dist(t.x * width, t.y * height, i.x, i.y) <= i.size / 2) {
         i.play();
-        // console.log(i);
       }
     }
   }
 }
-
-// function mousePressed() {
-//   //   let data = {x: mouseX, y: mouseY, color: myColor};
-//   //   socket.emit("message", data);
-//   //   fill(myColor, 255, 255);
-//   //   rect(mouseX, mouseY, 10, 10)
-// }
 
 function mousePressed() {
   if (!allowed) {
@@ -105,6 +103,10 @@ function drawPoints(data) {
     vertex(t.x * width, t.y * height);
   }
   endShape();
+}
+
+function gotConnection(data) {
+  isSnail = data.isSnail;
 }
 
 function processMessage(data) {
