@@ -41,8 +41,9 @@ function draw() {
     background(0);
     fill(255);
     textSize(25);
+    textFont("Serif");
     textAlign(CENTER);
-    text("Click or tap to start", width / 2, height / 2);
+    text("Click or tap to start.", width / 2, height / 2);
     return;
   }
 
@@ -162,24 +163,3 @@ class Instrument {
     }
   }
 }
-
-// let iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
-
-// if (iOS) {
-//   window.addEventListener('touchstart', function() {
-
-//   // create empty buffer
-//   let buffer = audiocontext.createBuffer(1, 1, 22050);
-//   let source = audiocontext.createBufferSource();
-//   source.buffer = buffer;
-
-//   // connect to output (your speakers)
-//   source.connect(audiocontext.destination);
-
-//   // play the file
-//   source.start(0);
-
-//   }, false);
-
-//   // TO DO: fake touch event so that audio will just start
-// }
