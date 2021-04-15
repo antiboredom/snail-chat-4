@@ -15,6 +15,8 @@ let decayTime = 5.112;
 let susPercent = 0.1;
 let releaseTime = 5.15;
 
+let allowed = false;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
@@ -35,12 +37,21 @@ function setup() {
 function draw() {
   background(0, 0.01);
 
+  if (!allowed) {
+    background(0);
+    fill(255);
+    textSize(25);
+    textAlign(CENTER);
+    text("Click or tap to start", width / 2, height / 2);
+    return;
+  }
+
   if (touches.length > 0) {
     const data = {
-      touches: touches.map(t => {
+      touches: touches.map((t) => {
         return { x: t.x / width, y: t.y / height };
       }),
-      c: myColor
+      c: myColor,
     };
     drawPoints(data);
     playInstruments(data);
@@ -71,7 +82,11 @@ function playInstruments(data) {
 // }
 
 function mousePressed() {
-  userStartAudio();
+  if (!allowed) {
+    background(0);
+    userStartAudio();
+    allowed = true;
+  }
 }
 
 function drawPoints(data) {
