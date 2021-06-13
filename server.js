@@ -58,6 +58,6 @@ function newConnection(socket) {
   }
 }
 
-server.listen(process.env.PORT || 3333, function () {
-  console.log("Started server at http://localhost:3333");
+server.listen(process.env.PORT || 3000, function () {
+  console.log("Started server at http://localhost:3000");
 });
