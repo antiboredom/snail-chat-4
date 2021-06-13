@@ -8,10 +8,9 @@ let socket = io.connect({ query: { secret: secret, name: name } });
 socket.on("message", processMessage);
 socket.on("connected", gotConnection);
 
-// let touches = [];
 let myColor;
 let others = [];
-let instruments = [];
+let players = [];
 
 let total = 10;
 let attackLevel = 1.0;
@@ -30,11 +29,8 @@ function setup() {
   colorMode(HSB);
   rectMode(CENTER);
 
-  size = width / total;
-  for (let y = 0; y < height; y += size) {
-    for (let x = 0; x < width; x += size) {
-      instruments.push(new Instrument(x, y, size));
-    }
+  for (let i=0; i<5; i++) {
+    players.push(new Player());
   }
 }
 
@@ -64,17 +60,17 @@ function draw() {
     socket.emit("message", data);
   }
 
-  for (let i of instruments) {
-    i.update();
+  for (let p of players) {
+    p.update();
   }
 }
 
 function playInstruments(data) {
-  for (let i of instruments) {
-    for (let t of data.touches) {
-      if (dist(t.x * width, t.y * height, i.x, i.y) <= i.size / 2) {
-        i.play();
-      }
+  for (let i=0; i<players.length;i++) {
+    if (data.touches[i]) {
+      players[i].play(data.touches[i].x, data.touches[i].y);
+    } else {
+      players[i].stop();
     }
   }
 }
@@ -82,19 +78,18 @@ function playInstruments(data) {
 function mousePressed() {
   if (!allowed) {
     background(0);
-    userStartAudio();
     allowed = true;
     CsoundObj.CSOUND_AUDIO_CONTEXT.resume();
   }
 
-  const data = {
-    touches: [{ x: mouseX / width, y: mouseY / height }],
-    c: myColor,
-    fc: frameCount,
-  };
-  drawPoints(data);
-  playInstruments(data);
-  socket.emit("message", data);
+  // const data = {
+  //   touches: [{ x: mouseX / width, y: mouseY / height }],
+  //   c: myColor,
+  //   fc: frameCount,
+  // };
+  // drawPoints(data);
+  // playInstruments(data);
+  // socket.emit("message", data);
 }
 
 function drawPoints(data) {
@@ -121,49 +116,41 @@ function gotConnection(data) {
 function processMessage(data) {
   drawPoints(data);
   playInstruments(data);
-  navigator.vibrate(3000);
-
-  for (const t1 of data.touches) {
-    for (const t2 of touches) {
-      if (dist(t1.x, t1.y, t2.x, t2.y) < 30) {
-        navigator.vibrate(200);
-      }
-    }
-  }
 }
 
-class Instrument {
-  constructor(x, y, size) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-    this.on = false; //random() > 0.8;
+class Player {
+  constructor() {
+    this.on = false;
     this.playTime = 0;
   }
 
-  play() {
+  play(x, y) {
+    console.log(x, y);
     if (!this.on) {
       this.on = true;
-      csound.SetChannel("Y", this.y / height);
-      csound.SetChannel("X", this.x / width);
-      csound.Event("i1 0 -1");
-      csound.SetChannel("amp", 0.7);
-    } else {
       this.playTime = 0;
+      csound.Event("i1 0 -1");
+      csound.SetChannel('amp', 0.7);
+    } else {
+      csound.SetChannel('Y', y);
+      csound.SetChannel('X', x);
+    }
+  }
+
+  stop() {
+    if (this.on) {
+      csound.Event("i-1 0 -1");
+      csound.SetChannel('X', 0.5);
+      csound.SetChannel('Y', 0.5);
+      this.playTime = 0;
+      this.on = false;
     }
   }
 
   update() {
-    if (this.on) {
-      this.playTime += 1;
-
-      if (this.playTime > 100) {
-        this.playTime = 0;
-        this.on = false;
-        csound.Event("i-1 0 -1");
-        csound.SetChannel("X", 0.5);
-        csound.SetChannel("Y", 0.5);
-      }
+    this.playTime ++;
+    if (this.playTime > 100) {
+      this.stop();
     }
   }
 }
@@ -176,9 +163,9 @@ window.oncontextmenu = function (event) {
 
 function moduleDidLoad() {
   console.log("loading module");
-  csound.PlayCsd("snailgrains1.csd");
+  csound.PlayCsd("snailgrains2.csd");
 }
 
 function handleMessage(msg) {
-  console.log(msg);
+  // console.log(msg);
 }
