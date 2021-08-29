@@ -7,6 +7,11 @@
 
 }
 
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
 html, body {
   height: 100%;
   background-color: #000000;
@@ -20,6 +25,7 @@ body {
   font-style: normal;
   line-height: 1.18;
   padding: 0;
+  margin: 0;
 
   text-rendering: optimizeLegibility;
   -webkit-overflow-scrolling: touch;
@@ -28,6 +34,10 @@ body {
 
 body.no-ui {
   touch-action: none;
+}
+
+main {
+  display: block;
 }
 
 a {
