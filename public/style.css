@@ -20,12 +20,14 @@ body {
   font-style: normal;
   line-height: 1.18;
   padding: 0;
-  /*scroll-behavior: smooth;*/
 
   text-rendering: optimizeLegibility;
   -webkit-overflow-scrolling: touch;
   -webkit-font-smoothing: antialiased;
-  /*touch-action: none;*/
+}
+
+body.no-ui {
+  touch-action: none;
 }
 
 a {
@@ -44,7 +46,14 @@ a:hover {
 
 canvas {
   display: block;
-  /*touch-action: none;*/
+}
+
+.no-ui canvas {
+  touch-action: none;
+}
+
+.no-ui .container {
+  display: none !important;
 }
 
 .uppercase {

@@ -23,11 +23,15 @@ let releaseTime = 5.15;
 let allowed = false;
 
 function setup() {
-  let el = document.getElementById('canvas-container');
-  let elWidth = el.offsetWidth;
-  let elHeight = el.offsetHeight;
-  let canvas = createCanvas(elWidth, elHeight);
-  canvas.parent('canvas-container');
+  if (secret === 'secret') {
+    createCanvas(windowWidth, windowHeight);
+  } else {
+    let el = document.getElementById('canvas-container');
+    let elWidth = el.offsetWidth;
+    let elHeight = el.offsetHeight;
+    let canvas = createCanvas(elWidth, elHeight);
+    canvas.parent('canvas-container');
+  }
   background(0);
   myColor = random(255);
   colorMode(HSB);
@@ -35,6 +39,17 @@ function setup() {
 
   for (let i=0; i<5; i++) {
     players.push(new Player());
+  }
+}
+
+function windowResized() {
+  if (secret === 'secret') {
+    resizeCanvas(windowWidth, windowHeight);
+  } else {
+    let el = document.getElementById('canvas-container');
+    let elWidth = el.offsetWidth;
+    let elHeight = el.offsetHeight;
+    resizeCanvas(elWidth, elHeight);
   }
 }
 
@@ -67,13 +82,6 @@ function draw() {
   for (let p of players) {
     p.update();
   }
-}
-
-function windowResized() {
-  let el = document.getElementById('canvas-container');
-  let elWidth = el.offsetWidth;
-  let elHeight = el.offsetHeight;
-  resizeCanvas(elWidth, elHeight);
 }
 
 function playInstruments(data) {
@@ -182,14 +190,18 @@ function handleMessage(msg) {
 //   return false;
 // };
 
-document.addEventListener("DOMContentLoaded", function() {
-  const text = document.getElementById('more-info');
-  const button = document.getElementById('read-more');
+document.addEventListener('DOMContentLoaded', function() {
+  const aboutText = document.getElementById('more-info');
+  const aboutButton = document.getElementById('read-more');
 
-  if (button) {
-    button.addEventListener('click', () => {
-      text.style.display = 'block';
-      button.style.display = 'none';
+  if (secret === 'secret') {
+    document.body.classList.add('no-ui');
+  }
+
+  if (aboutButton) {
+    aboutButton.addEventListener('click', () => {
+      aboutText.style.display = 'block';
+      aboutButton.style.display = 'none';
     });
   }
 });
