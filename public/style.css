@@ -1,0 +1,190 @@
+@font-face {
+  font-family: 'timeless';
+  src: url('fonts/timeless.woff2') format('woff2'),
+       url('fonts/timeless.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+html, body {
+  height: 100%;
+  background-color: #C2C2C2;
+}
+
+body {
+  color: #222222;
+  font-family: 'timeless';
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.18;
+  padding: 0;
+  /*scroll-behavior: smooth;*/
+
+  text-rendering: optimizeLegibility;
+  -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+  /*touch-action: none;*/
+}
+
+a {
+  color: #222222;
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+  /*touch-action: none;*/
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.col-left {
+  padding: 15px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo, .links {
+  margin-bottom: 25px;
+}
+
+.links a {
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+
+.links a:last-child {
+  margin-bottom: 0;
+}
+
+.more-info {
+  display: none;
+}
+
+.more-info p:last-child {
+  margin-bottom: 0;
+}
+
+.read-more {
+  margin-top: 25px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.read-more:hover {
+  text-decoration: none;
+}
+
+.col-right {
+  background-color: #000000;
+  margin-top: 25px;
+}
+
+.video-wrapper {
+  position: relative;
+  padding-bottom:50%;
+}
+
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-container {
+  position: relative;
+  padding-bottom:50%;
+}
+
+.canvas-title {
+  color: #ffffff;
+  opacity: .9;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 9;
+}
+
+.canvas-container canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@media only screen and (min-width: 800px) {
+  body {
+    font-size: 26px;
+    line-height: 1.15;
+  }
+
+  .container {
+    display: flex;
+    height: 100%;
+  }
+
+  .col-left {
+    width: 310px;
+    padding: 20px;
+    overflow-y: scroll;
+  }
+
+  .logo, .links {
+    margin-bottom: 30px;
+  }
+
+  .links a {
+    margin-bottom: 3px;
+  }
+
+  .links a:last-child {
+    margin-bottom: 0;
+  }
+
+  .more-info {
+    padding-bottom: 30px;
+  }
+
+  .read-more {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .col-right {
+    width: 100%;
+    margin-top: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-wrapper, .canvas-container {
+    width: 100%;
+    height: 50%;
+    padding-bottom: 0;
+  }
+
+  .canvas-title {
+    font-size: 18px;
+  }
+}

@@ -23,7 +23,11 @@ let releaseTime = 5.15;
 let allowed = false;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let el = document.getElementById('canvas-container');
+  let elWidth = el.offsetWidth;
+  let elHeight = el.offsetHeight;
+  let canvas = createCanvas(elWidth, elHeight);
+  canvas.parent('canvas-container');
   background(0);
   myColor = random(255);
   colorMode(HSB);
@@ -63,6 +67,13 @@ function draw() {
   for (let p of players) {
     p.update();
   }
+}
+
+function windowResized() {
+  let el = document.getElementById('canvas-container');
+  let elWidth = el.offsetWidth;
+  let elHeight = el.offsetHeight;
+  resizeCanvas(elWidth, elHeight);
 }
 
 function playInstruments(data) {
@@ -155,11 +166,6 @@ class Player {
   }
 }
 
-window.oncontextmenu = function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-  return false;
-};
 
 function moduleDidLoad() {
   console.log("loading module");
@@ -169,3 +175,21 @@ function moduleDidLoad() {
 function handleMessage(msg) {
   // console.log(msg);
 }
+
+// window.oncontextmenu = function (event) {
+//   event.preventDefault();
+//   event.stopPropagation();
+//   return false;
+// };
+
+document.addEventListener("DOMContentLoaded", function() {
+  const text = document.getElementById('more-info');
+  const button = document.getElementById('read-more');
+
+  if (button) {
+    button.addEventListener('click', () => {
+      text.style.display = 'block';
+      button.style.display = 'none';
+    });
+  }
+});
