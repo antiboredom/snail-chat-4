@@ -184,11 +184,13 @@ function handleMessage(msg) {
   // console.log(msg);
 }
 
-// window.oncontextmenu = function (event) {
-//   event.preventDefault();
-//   event.stopPropagation();
-//   return false;
-// };
+window.oncontextmenu = function (event) {
+  if (secret === 'secret') {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+  }
+};
 
 document.addEventListener('DOMContentLoaded', function() {
   const aboutText = document.getElementById('more-info');
