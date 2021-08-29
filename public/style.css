@@ -9,13 +9,13 @@
 
 html, body {
   height: 100%;
-  background-color: #C2C2C2;
+  background-color: #000000;
 }
 
 body {
-  color: #222222;
+  color: #FFFFFF;
   font-family: 'timeless';
-  font-size: 18px;
+  font-size: 16px;
   font-weight: normal;
   font-style: normal;
   line-height: 1.18;
@@ -29,7 +29,7 @@ body {
 }
 
 a {
-  color: #222222;
+  color: #FFFFFF;
   text-decoration: underline;
 }
 
@@ -38,7 +38,8 @@ a:hover {
 }
 
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 canvas {
@@ -55,8 +56,13 @@ canvas {
 }
 
 .links {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .logo, .links {
@@ -98,6 +104,7 @@ canvas {
 .video-wrapper {
   position: relative;
   padding-bottom:50%;
+  border-bottom: 1px solid #FFFFFF;
 }
 
 .video-wrapper video {
@@ -134,19 +141,28 @@ canvas {
 
 @media only screen and (min-width: 800px) {
   body {
-    font-size: 26px;
+    font-size: 21px;
     line-height: 1.15;
   }
 
   .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     height: 100%;
   }
 
   .col-left {
-    width: 310px;
+    width: 315px;
     padding: 20px;
     overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  }
+
+  .col-left::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
   }
 
   .logo, .links {
@@ -173,9 +189,17 @@ canvas {
   .col-right {
     width: 100%;
     margin-top: 0;
-    flex: 1;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border-left: 1px solid #FFFFFF;
   }
 
   .video-wrapper, .canvas-container {
@@ -185,6 +209,7 @@ canvas {
   }
 
   .canvas-title {
-    font-size: 18px;
+    top: 20px;
+    left: 20px;
   }
 }
