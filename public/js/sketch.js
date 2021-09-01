@@ -8,9 +8,10 @@ let socket = io.connect({ query: { secret: secret, name: name } });
 socket.on("message", processMessage);
 socket.on("connected", gotConnection);
 
+// let touches = [];
 let myColor;
 let others = [];
-let players = [];
+let instruments = [];
 
 let total = 10;
 let attackLevel = 1.0;
@@ -37,8 +38,13 @@ function setup() {
   colorMode(HSB);
   rectMode(CENTER);
 
-  for (let i=0; i<5; i++) {
-    players.push(new Player());
+  size = width / total;
+  for (let y = 0; y < height; y += size) {
+    for (let x = 0; x < width; x += size) {
+      let freq = map(y, 0, height, 0, 1000);
+      // let phase = map(x, 0, width, 0.0, 1.0);
+      instruments.push(new Instrument(freq, x, y, size));
+    }
   }
 }
 
@@ -54,13 +60,13 @@ function windowResized() {
 }
 
 function draw() {
-  background(0, 0.01);
+  background(0, 0);
 
   if (!allowed) {
     background(0);
     fill(255);
-    textSize(25);
-    textFont("Serif");
+    textSize(21);
+    textFont("timeless");
     textAlign(CENTER);
     text("Click or tap to start.", width / 2, height / 2);
     return;
@@ -68,47 +74,45 @@ function draw() {
 
   if (isSnail && touches.length > 0) {
     const data = {
-      touches: touches.map((t) => {
+      touches: touches.map(t => {
         return { x: t.x / width, y: t.y / height };
       }),
-      c: myColor,
-      fc: frameCount,
+      c: myColor
     };
     drawPoints(data);
     playInstruments(data);
     socket.emit("message", data);
   }
 
-  for (let p of players) {
-    p.update();
+  for (let i of instruments) {
+    i.update();
   }
 }
 
 function playInstruments(data) {
-  for (let i=0; i<players.length;i++) {
-    if (data.touches[i]) {
-      players[i].play(data.touches[i].x, data.touches[i].y);
-    } else {
-      players[i].stop();
+  for (let i of instruments) {
+    for (let t of data.touches) {
+      if (dist(t.x * width, t.y * height, i.x, i.y) <= i.size / 2) {
+        i.play();
+        // console.log(i);
+      }
     }
   }
 }
+
+// function mousePressed() {
+//   //   let data = {x: mouseX, y: mouseY, color: myColor};
+//   //   socket.emit("message", data);
+//   //   fill(myColor, 255, 255);
+//   //   rect(mouseX, mouseY, 10, 10)
+// }
 
 function mousePressed() {
   if (!allowed) {
     background(0);
     allowed = true;
-    CsoundObj.CSOUND_AUDIO_CONTEXT.resume();
+    userStartAudio();
   }
-
-  // const data = {
-  //   touches: [{ x: mouseX / width, y: mouseY / height }],
-  //   c: myColor,
-  //   fc: frameCount,
-  // };
-  // drawPoints(data);
-  // playInstruments(data);
-  // socket.emit("message", data);
 }
 
 function drawPoints(data) {
@@ -135,53 +139,58 @@ function gotConnection(data) {
 function processMessage(data) {
   drawPoints(data);
   playInstruments(data);
+  navigator.vibrate(3000);
+
+  for (const t1 of data.touches) {
+    for (const t2 of touches) {
+      if (dist(t1.x, t1.y, t2.x, t2.y) < 30) {
+        navigator.vibrate(200);
+      }
+    }
+  }
 }
 
-class Player {
-  constructor() {
-    this.on = false;
+class Instrument {
+  constructor(freq, x, y, size) {
+    this.freq = freq;
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.on = false; //random() > 0.8;
+
+    this.env = new p5.Envelope();
+    this.env.setADSR(attackTime, decayTime, susPercent, releaseTime);
+    this.env.setRange(attackLevel, releaseLevel);
+
+    this.osc = new p5.Oscillator("sine");
+
+    this.osc.amp(this.env);
+    this.osc.start();
+    this.osc.freq(this.freq);
     this.playTime = 0;
   }
 
-  play(x, y) {
-    console.log(x, y);
+  play() {
     if (!this.on) {
+      console.log(this.freq);
       this.on = true;
-      this.playTime = 0;
-      csound.Event("i1 0 -1");
-      csound.SetChannel('amp', 0.7);
+      this.env.triggerAttack();
     } else {
-      csound.SetChannel('Y', y);
-      csound.SetChannel('X', x);
-    }
-  }
-
-  stop() {
-    if (this.on) {
-      csound.Event("i-1 0 -1");
-      csound.SetChannel('X', 0.5);
-      csound.SetChannel('Y', 0.5);
       this.playTime = 0;
-      this.on = false;
     }
   }
 
   update() {
-    this.playTime ++;
-    if (this.playTime > 100) {
-      this.stop();
+    if (this.on) {
+      this.playTime += 1;
+
+      if (this.playTime > 100) {
+        this.playTime = 0;
+        this.env.triggerRelease();
+        this.on = false;
+      }
     }
   }
-}
-
-
-function moduleDidLoad() {
-  console.log("loading module");
-  csound.PlayCsd("snailgrains2.csd");
-}
-
-function handleMessage(msg) {
-  // console.log(msg);
 }
 
 window.oncontextmenu = function (event) {
