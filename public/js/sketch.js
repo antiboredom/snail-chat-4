@@ -24,7 +24,7 @@ let releaseTime = 5.15;
 let allowed = false;
 
 function setup() {
-  if (secret === 'secret') {
+  if (params.has('secret')) {
     createCanvas(windowWidth, windowHeight);
   } else {
     let el = document.getElementById('canvas-container');
@@ -49,7 +49,7 @@ function setup() {
 }
 
 function windowResized() {
-  if (secret === 'secret') {
+  if (params.has('secret')) {
     resizeCanvas(windowWidth, windowHeight);
   } else {
     let el = document.getElementById('canvas-container');
@@ -194,7 +194,7 @@ class Instrument {
 }
 
 window.oncontextmenu = function (event) {
-  if (secret === 'secret') {
+  if (params.has('secret')) {
     event.preventDefault();
     event.stopPropagation();
     return false;
@@ -202,7 +202,7 @@ window.oncontextmenu = function (event) {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-  if (secret === 'secret') {
+  if (params.has('secret')) {
     document.body.classList.add('no-ui');
   }
 
