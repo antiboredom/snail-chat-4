@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html lang="">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-    />
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport"/>
     <title>UNWHORL</title>
-    <style>
-      .app-content,
-      body,
-      html {
-        background-color: #000;
-      }
-
-      * {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-      }
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        touch-action: none;
-      }
-      canvas {
-        display: block;
-        touch-action: none;
-      }
-    </style>
+    <meta name="description" content="An interface for snails created by Mari Bastashevski and Sam Lavigne.">
+    <meta property="og:title" content="UNWHORL">
+    <meta property="og:url" content="http://unwhorl.com">
+    <meta property="og:description" content="An interface for snails created by Mari Bastashevski and Sam Lavigne.">
+    <meta property="og:image" content="/img/social.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="stylesheet" href="style.css">
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/p5.min.js"></script>
-    <!-- <script src="js/p5.sound.min.js"></script> -->
-    <script type="text/javascript" src="js/csound.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/addons/p5.sound.min.js"></script>
+    <!-- <script src="js/p5.min.js"></script>
+    <script type="text/javascript" src="js/csound.js"></script> -->
     <script src="js/sketch.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <div class="col col-left">
+        <div class="content">
+          <div class="logo uppercase">Unwhorl</div>
+          <div class="links">
+            <a target="_blank" href="https://twitter.com/unwhorl">Twitter</a>
+            <a target="_blank" href="https://www.instagram.com/unwhorl">Instagram</a>
+            <a target="_blank" href="https://www.tiktok.com/@unwhorl">TikTok</a>
+          </div>
+         <div class="about">
+            <p>
+              Unwhorl is&nbsp;an&nbsp;interface for snails created by&nbsp;<a href="https://www.maribastashevski.com" target="_blank">Mari Bastashevski</a> and <a href="https://lav.io" target="_blank">Sam Lavigne</a>. The app converts any touch screen into an&nbsp;interactive plane for gastropods to&nbsp;play, paint, and share music and sketches in&nbsp;real time. The transmissions occur between a&nbsp;rout of&nbsp;snails based in&nbsp;NYC, Berlin, Lausanne, and Rotterdam.
+            </p>
+            <div id="more-info" class="more-info">
+              <p>
+                Unwhorl is&nbsp;an&nbsp;experiment in&nbsp;platform ethology. One, we&nbsp;claim, can aspire to&nbsp;be&nbsp;both a&nbsp;purely speculative gesture towards the future of&nbsp;<nobr>fauna-facing</nobr> tech, and a&nbsp;hardware for a&nbsp;specific mode of&nbsp;cultural production.
+              </p>
+              <p>
+                With Unwhorl we&nbsp;aim to&nbsp;consider how existing interspecies technologies may be&nbsp;freed from the singular purpose of&nbsp;the translation of&nbsp;animal subjectivity to&nbsp;humans, instead seeking for a&nbsp;more encompassing exploration of&nbsp;the intuitive connections all species share through the act of&nbsp;creating experimental fictions.
+              </p>
+              <p>
+                Fictioning, we&nbsp;posit, creates enduring bonds between individuals, spaces, and temporalities. Humans have fictioned into existence entire worlds, yet it&nbsp;is&nbsp;still difficult for us&nbsp;to&nbsp;presume that other species, too, rely on&nbsp;fiction to&nbsp;make sense of&nbsp;their experiences and to&nbsp;form cultural communities. Interspecies bonds, we&nbsp;speculate, may depend on&nbsp;shared fictions.
+              </p>
+              <p>
+                This work is&nbsp;part of&nbsp;a&nbsp;larger series of&nbsp;TRANSMEMETIC exchanges between human animals and machines. It&nbsp;was made possible thanks to&nbsp;the advice, attention, and affective investments from <a href="http://ooo.szkmd.ooo" target="_blank">Daniel Maszkowicz</a>, Clemens Driessen, Lindsay Eyink, Anthony Volodkin, &#216;yvind Brandtsegg, Sarah Vogelski, Mattia Pretolani, Salif Sissoko, and the support of&nbsp;KIT NTNU, ALICE Lab, EPFL, and MTF labs. For all inquiries contact Mari or&nbsp;Sam directly.
+              </p>
+            </div>
+            <div id="read-more" class="read-more uppercase">Read more...</div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-right">
+        <div class="video-wrapper">
+          <video controls playsinline preload="none" loop>
+            <source src="https://snailfilm.s3.amazonaws.com/unwhorl.mp4" type="video/mp4">
+          </video>
+          <div class="play-button">
+            <img class="play-icon" src="img/play.svg">
+          </div>
+        </div>
+        <div id="canvas-container" class="canvas-container">
+          <div class="canvas-title uppercase">Live broadcast</div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
