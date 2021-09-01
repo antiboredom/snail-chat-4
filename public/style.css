@@ -142,10 +142,10 @@ canvas {
 
 .play-button {
   background-color: #000000;
-  /*background-image: url('img/cover.jpg');*/
-/*  background-size: contain;
+  background-image: url('img/cover.jpg');
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;*/
+  background-position: center;
   position: absolute;
   top: 0;
   right: 0;
