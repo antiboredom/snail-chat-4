@@ -202,17 +202,29 @@ window.oncontextmenu = function (event) {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-  const aboutText = document.getElementById('more-info');
-  const aboutButton = document.getElementById('read-more');
-
   if (secret === 'secret') {
     document.body.classList.add('no-ui');
   }
 
+  const aboutText = document.getElementById('more-info');
+  const aboutButton = document.getElementById('read-more');
   if (aboutButton) {
     aboutButton.addEventListener('click', () => {
       aboutText.style.display = 'block';
       aboutButton.style.display = 'none';
+    });
+  }
+
+  const player = document.querySelector(".video-wrapper");
+  if (player) {
+    const video = player.querySelector("video");
+    const playButton = player.querySelector(".play-button");
+
+    playButton.addEventListener('click', () => {
+      if (video.paused) {
+        playButton.classList.add("hidden");
+        video.play();
+      }
     });
   }
 });

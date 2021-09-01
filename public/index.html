@@ -8,7 +8,7 @@
     <meta property="og:title" content="UNWHORL">
     <meta property="og:url" content="http://unwhorl.com">
     <meta property="og:description" content="An interface for snails created by Mari Bastashevski and Sam Lavigne.">
-    <!-- <meta property="og:image" content="/img/share2.jpg"> -->
+    <meta property="og:image" content="/img/social.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
@@ -54,9 +54,12 @@
       </div>
       <div class="col col-right">
         <div class="video-wrapper">
-          <video playsinline autoplay loop muted>
+          <video controls playsinline preload="none" loop>
             <source src="https://static.videezy.com/system/resources/previews/000/033/190/original/Freshwater-Snail-In-Aquarium-Timelapse-2420.mp4" type="video/mp4">
           </video>
+          <div class="play-button">
+            <img class="play-icon" src="img/play.svg">
+          </div>
         </div>
         <div id="canvas-container" class="canvas-container">
           <div class="canvas-title uppercase">Live broadcast</div>
