@@ -25,5 +25,8 @@
     "node",
     "glitch",
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.10"
+  }
 }
